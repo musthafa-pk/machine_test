@@ -1,50 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../utils/constants.dart';
+import '../../services/auth_service.dart';
+
 
 class AuthController extends GetxController {
+  final AuthService _authService = AuthService();
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   var isLoading = false.obs;
 
-  void login() {
+  RxString userId = ''.obs;
+  RxString token = ''.obs;
+
+  void login() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      Get.snackbar(
-        "Error",
-        "Email and password cannot be empty",
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
+      Get.snackbar("Error", "Email and password are required");
       return;
     }
 
-    isLoading.value = true;
+    try {
+      isLoading(true);
 
-    Future.delayed(const Duration(seconds: 1), () {
-      isLoading.value = false;
+      final Map<String, dynamic> result =
+      await _authService.login(email: email, password: password);
 
-      if (email == AppConstants.testEmail &&
-          password == AppConstants.testPassword) {
+      debugPrint("LOGIN RESULT MAP: $result");
+
+      if (result['success'] == true) {
+        userId.value = result['id'].toString();   // "80y"
+        token.value = result['token'].toString();
+
+        debugPrint("USER ID STORED: ${userId.value}");
+        debugPrint("TOKEN STORED: ${token.value}");
+
         Get.offAllNamed('/home');
       } else {
-        Get.snackbar(
-          "Login Failed",
-          "Invalid email or password",
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white,
-        );
+        Get.snackbar("Login Failed", result['message'] ?? "Invalid credentials");
       }
-    });
-  }
-
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
+    } catch (e) {
+      debugPrint("LOGIN ERROR: $e");
+      Get.snackbar("Error", "Something went wrong");
+    } finally {
+      isLoading(false);
+    }
   }
 }

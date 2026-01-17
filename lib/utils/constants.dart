@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 class AppConstants {
   static const String testEmail = "mobile@alisonsgroup.com";
   static const String testPassword = "12345678";
+
+  //Api constants
+  static const String baseUrl = "https://sungod.demospro2023.in.net/api";
+  static const String imageBaseUrl = "https://sungod.demospro2023.in.net/uploads/";
+  static const String homeEndpoint = "/home/en";
+   static const String productEndpoint = "/products/en";
+
 }
-
-
 
 
 class AppColors {
