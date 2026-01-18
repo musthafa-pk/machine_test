@@ -30,7 +30,12 @@ class CategoryList extends StatelessWidget {
                 "Categories",
                 style: TextStyle(color: AppColors.primaryBrown,fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              Icon(Icons.chevron_right),
+              Row(
+                children: [
+                  Icon(Icons.chevron_left),
+                  Icon(Icons.chevron_right),
+                ],
+              ),
             ],
           ),
         ),

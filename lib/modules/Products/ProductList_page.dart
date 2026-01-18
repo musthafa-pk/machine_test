@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:macine_test/modules/Products/product_list_controller.dart';
+import 'package:macine_test/utils/constants.dart';
 import '../../widgets/productgrid_card.dart';
 import '../../widgets/sort_filter_bar.dart';
 
@@ -19,6 +20,7 @@ class ProductListPage extends StatelessWidget {
     final ProductListController controller = Get.put(ProductListController(categoryId));
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
@@ -30,7 +32,9 @@ class ProductListPage extends StatelessWidget {
               categoryName,
               style: const TextStyle(
                 color: Colors.black,
-                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+
               ),
             ),
             Obx(() => Text(
@@ -42,10 +46,10 @@ class ProductListPage extends StatelessWidget {
             )),
           ],
         ),
-        actions: const [
-          Icon(Icons.search, color: Colors.black),
+        actions: [
+          Image.asset('assets/icons/search.png',scale: 2,color: AppColors.primaryText,),
           SizedBox(width: 16),
-          Icon(Icons.shopping_bag_outlined, color: Colors.black),
+          Image.asset('assets/icons/solar_cart.png',scale: 2,color: AppColors.primaryText,),
           SizedBox(width: 16),
         ],
       ),

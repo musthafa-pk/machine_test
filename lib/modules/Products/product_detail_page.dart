@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../models/product_model.dart';
 import '../../utils/constants.dart';
 import '../../widgets/description_section.dart';
 import '../../widgets/image_slider.dart';
@@ -7,20 +8,21 @@ import '../../widgets/price_section.dart';
 import '../../widgets/related_products.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  const ProductDetailPage({super.key});
+  final ProductModel products;
+  const ProductDetailPage({super.key ,required this.products});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
         leading: const BackButton(color: Colors.black),
-        actions: const [
-          Icon(Icons.search, color: Colors.black),
+        actions: [
+          Image.asset('assets/icons/search.png',scale: 2,color: AppColors.primaryText,),
           SizedBox(width: 16),
-          Icon(Icons.shopping_bag_outlined, color: Colors.black),
+          Image.asset('assets/icons/solar_cart.png',scale: 2,color: AppColors.primaryText,),
           SizedBox(width: 16),
         ],
       ),
@@ -28,11 +30,16 @@ class ProductDetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            ImageSlider(),
+          children:  [
+            ImageSlider(
+              images: const [
+                'assets/images/product.jpg',
+                'assets/images/qwe.png',
+              ],
+            ),
             Padding(
               padding: EdgeInsets.all(16),
-              child: ProductInfoSection(),
+              child: ProductInfoSection(product: products,),
             ),
             Divider(height: 1),
             Padding(
@@ -57,12 +64,13 @@ class ProductDetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            icon: const Icon(Icons.shopping_cart_outlined),
+            icon: Image.asset('assets/icons/cart_icon.png',color: Colors.white,height: 28,),
             label: const Text(
               "Add To Cart",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
+                color: Colors.white
               ),
             ),
           ),

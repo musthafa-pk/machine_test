@@ -17,6 +17,7 @@ class AppColors {
 
   // Backgrounds
   static const Color textFieldBackground = Color.fromRGBO(255, 255, 255, 1);
+  static const Color cardBackground = Color.fromRGBO(242, 242, 242, 1);
 
   // Text
   static const Color primaryText = Color.fromRGBO(34, 34, 34, 1);

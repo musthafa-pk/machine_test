@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
-
 import '../utils/constants.dart';
 
+class ImageSlider extends StatefulWidget {
+  final List<String> images; // asset image paths
 
-class ImageSlider extends StatelessWidget {
-  const ImageSlider({super.key});
+  const ImageSlider({
+    super.key,
+    required this.images,
+  });
+
+  @override
+  State<ImageSlider> createState() => _ImageSliderState();
+}
+
+class _ImageSliderState extends State<ImageSlider> {
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        /// IMAGE SLIDER
         Container(
           margin: const EdgeInsets.all(16),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
@@ -27,33 +38,55 @@ class ImageSlider extends StatelessWidget {
             children: [
               SizedBox(
                 height: 220,
-                child: Center(
-                  child: Icon(Icons.image, size: 140),
+                child: PageView.builder(
+                  itemCount: widget.images.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentIndex = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Center(
+                      child: Image.asset(
+                        widget.images[index],
+                        fit: BoxFit.contain,
+                      ),
+                    );
+                  },
                 ),
               ),
-              const Positioned(
+
+              /// HEART ICON
+              Positioned(
                 top: 0,
                 right: 0,
-                child: Icon(
-                  Icons.favorite_border,
-                  color: AppColors.primaryBrown,
+                child: IconButton(
+                  onPressed: () {
+                    // wishlist action
+                  },
+                  icon: Image.asset(
+                    'assets/icons/heart.png',
+                    scale: 2,
+                    color: AppColors.primaryBrown,
+                  ),
                 ),
               ),
             ],
           ),
         ),
 
-        // Indicator
+        /// INDICATOR
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            4,
-                (index) => Container(
+            widget.images.length,
+                (index) => AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
               margin: const EdgeInsets.symmetric(horizontal: 4),
-              width: index == 0 ? 20 : 8,
+              width: currentIndex == index ? 20 : 8,
               height: 8,
               decoration: BoxDecoration(
-                color: index == 0
+                color: currentIndex == index
                     ? AppColors.primaryBrown
                     : Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(4),

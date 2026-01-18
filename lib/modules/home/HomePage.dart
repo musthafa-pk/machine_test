@@ -15,16 +15,20 @@ class HomePage extends StatelessWidget {
     final HomeController controller = Get.put(HomeController());
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: AppColors.primaryBrown,
         elevation: 0,
-        leading: const Icon(Icons.shopping_cart, color: Colors.white),
-        actions: const [
-          Icon(Icons.search, color: Colors.white),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset('assets/images/logo.png',),
+        ),
+        actions:  [
+          Image.asset('assets/icons/search.png',scale: 2,),
           SizedBox(width: 16),
-          Icon(Icons.favorite_border, color: Colors.white),
+          Image.asset('assets/icons/heart.png',scale: 2,),
           SizedBox(width: 16),
-          Icon(Icons.notifications_none, color: Colors.white),
+          Image.asset('assets/icons/notification1.png',scale: 2,),
           SizedBox(width: 16),
         ],
       ),
@@ -45,15 +49,15 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children:  [
                   SizedBox(height: 16),
-                  // Obx(() {
-                  //   if (controller.banner1.isEmpty) {
-                  //     return const SizedBox(); // nothing to show
-                  //   }
-                  //
-                  //   return BannerSlider(
-                  //     banners: controller.banner1.toList(),
-                  //   );
-                  // }),
+                  Obx(() {
+                    if (controller.banner1.isEmpty) {
+                      return const SizedBox(); // nothing to show
+                    }
+
+                    return BannerSlider(
+                      banners: controller.banner1.toList(),
+                    );
+                  }),
 
                   SizedBox(height: 24),
 
@@ -61,19 +65,35 @@ class HomePage extends StatelessWidget {
                     if (controller.categories.isEmpty) {
                       return const SizedBox();
                     }
-
                     return CategoryList(
                       categories: controller.categories.toList(),
                     );
                   }),
 
-                  ProductSection(title: "Featured Products"),
-                  ProductSection(title: "Daily Best Selling"),
-                  // if (controller.banner1.isNotEmpty)
-                  //   BannerSlider(banners: controller.banner1),
-                  ProductSection(title: "Recently Added"),
-                  ProductSection(title: "Popular Products"),
-                  ProductSection(title: "Trending Products"),
+                  ProductSection(
+                      title: "Featured Products",
+                    products: controller.recentProducts,
+                  ),
+                  ProductSection(
+                      title: "Daily Best Selling",
+                    products: controller.ourProducts,
+                  ),
+                  SizedBox(height: 10,),
+                  Obx(() {
+                    if (controller.banner2.isEmpty) {
+                      return const SizedBox(); // nothing to show
+                    }
+
+                    return BannerSlider(
+                      banners: controller.banner2.toList(),
+                    );
+                  }),
+                  ProductSection(
+                      title: "Recently Added",
+                    products: controller.recentProducts,
+                  ),
+                  ProductSection(title: "Popular Products",products: controller.ourProducts,),
+                  ProductSection(title: "Trending Products",products: controller.ourProducts,),
                   SizedBox(height: 16),
                 ],
               ),
@@ -86,15 +106,17 @@ class HomePage extends StatelessWidget {
         currentIndex: 0,
         selectedItemColor: AppColors.primaryBrown,
         unselectedItemColor: Colors.grey,
-        items: const [
+        unselectedLabelStyle: TextStyle(color: Colors.grey),
+        showUnselectedLabels: true,
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: "Home"),
+              icon: Image.asset('assets/icons/home.png',scale: 2,), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.category), label: "Categories"),
+              icon: Image.asset('assets/icons/tabler_category.png',scale: 2,), label: "Categories"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: "Cart"),
+              icon: Image.asset('assets/icons/solar_cart.png',scale: 2,), label: "Cart"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person), label: "Profile"),
+              icon: Image.asset('assets/icons/solar_user.png',scale: 2,), label: "Profile"),
         ],
       ),
     );

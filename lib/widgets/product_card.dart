@@ -1,64 +1,161 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../models/product_model.dart';
+import '../modules/Products/product_detail_page.dart';
 import '../utils/constants.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  final ProductModel product;
+
+  const ProductCard({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 160,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: Icon(Icons.favorite_border,
-                size: 18, color: Colors.grey),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            height: 80,
-            color: Colors.grey.shade200,
-            child: const Center(child: Icon(Icons.image)),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            "Flours & Sugars",
-            style: TextStyle(fontSize: 12, color: Colors.grey),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            "Light pink salt 1 kg",
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 6),
-          const Text("₹ 62.00   ₹ 80.00",
-              style: TextStyle(fontSize: 12)),
-          const Spacer(),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.primaryBrown,
-              ),
-              child: const Text("Add"),
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => ProductDetailPage(
+          products: product,
+        ));
+      },
+      child: Container(
+        width: 160,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.cardBackground,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.15),
+              blurRadius: 6,
             ),
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: 100,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Image.network(
+                      "${AppConstants.imageBaseUrl}${product.image}",
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) =>
+                          Image.asset('assets/images/qwe.png'),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Image.asset(
+                    'assets/icons/heart.png',
+                    color: AppColors.primaryBrown,
+                    scale: 2,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 8),
+
+
+            const SizedBox(height: 4),
+
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                product.name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primaryText,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 6),
+
+            Row(
+              children: [
+                Text(
+                  "₹ ${product.price}",
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryBrown,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                if (product.oldPrice != null &&
+                    product.oldPrice != product.price)
+                  Text(
+                    "₹ ${product.oldPrice}",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.primaryText,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
+              ],
+            ),
+
+            const Spacer(),
+
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Add',
+                      style: TextStyle(
+                        color: AppColors.primaryBrown,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Image.asset(
+                      'assets/icons/cart_icon.png',
+                      scale: 2,
+                      color: AppColors.primaryBrown,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

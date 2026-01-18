@@ -1,8 +1,13 @@
-# macine_test
+# machine_test
 
 A new Flutter project for codeedex machine test.
 
 ## Getting Started
+
+flutter version : 3.24.1
+dart version : 3.5.1
+DevTools : 2.37.2
+
 
 packages used in this project
 - get: ^4.7.3
@@ -22,3 +27,5 @@ packages used in this project
 3. **Run the App:**
    ```bash
    flutter run
+   
+state management used GETX
