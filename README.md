@@ -28,4 +28,9 @@ packages used in this project
    ```bash
    flutter run
    
-state management used GETX
+   state management used GETX
+
+[![Home](screenshots/home.png)](screenshots/home.png)
+[![Login](screenshots/login.png)](screenshots/login.png)
+[![category](screenshots/category.png)](screenshots/category.png)
+[![details](screenshots/details.png)](screenshots/details.png)
